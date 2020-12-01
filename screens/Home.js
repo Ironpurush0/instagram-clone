@@ -1,12 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, SafeAreaView, Button } from 'react-native'
 
-const Home = () => {
+const Home = ({navigation}) => {
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.container}>
-            <StatusBar barStyle="dark-content" />
+                <StatusBar barStyle="dark-content" />
                 <Text>I am screen</Text>
+                <Button title="press" onPress={() => navigation.navigate('Register')} />
             </View>
         </SafeAreaView>
     )
