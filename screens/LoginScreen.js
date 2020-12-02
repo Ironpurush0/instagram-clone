@@ -1,41 +1,26 @@
 import React, {useState} from 'react'
-import { StyleSheet, TextInput, View, Button, Text, SafeAreaView, ActivityIndicator } from 'react-native'
+import { StyleSheet, TextInput, View, Button, Text, SafeAreaView } from 'react-native'
 import firebase from 'firebase'
 
-const RegisterScreen = (props) => {
-    const [name, setName] = useState("")
+const RegisterScreen = ({navigation}) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [loading, setLoading] = useState()
 
     const onSignup = async () => {
         try {
-            const res = await firebase.auth().createUserWithEmailAndPassword(email, password)
-            firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).set({
-                name,
-                email
-            })
-            setLoading(false)
-            props.navigation.navigate('Home')
+            const res = await firebase.auth().signInWithEmailAndPassword(email, password)
+            console.log(res)
         } catch (error) {
-            props.navigation.navigate('Register')
             console.log(error.message)
         }
-    }
-
-    if(loading){
-        return <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-            <ActivityIndicator />
-        </View>
     }
 
     return (
         <SafeAreaView style={{flex: 1}}>
             <View style={styles.container}>
-                <TextInput placeholder="username" onChangeText={(text) => setName(text)} />
                 <TextInput placeholder="email" onChangeText={(text) => setEmail(text)} />
                 <TextInput placeholder="password" secureTextEntry={true} onChangeText={(text) => setPassword(text)} />
-                <Button title="Press" onPress={onSignup} />
+                <Button title="Login" onPress={onSignup} />
                 <Text>or</Text>
                 <Button title="press" onPress={() => navigation.navigate('Login')} />
             </View>
