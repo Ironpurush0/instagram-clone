@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { StyleSheet, TextInput, View, Button, Text, SafeAreaView, ActivityIndicator } from 'react-native'
 import firebase from 'firebase'
 
-const RegisterScreen = (props) => {
+const RegisterScreen = ({navigation}) => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -16,9 +16,9 @@ const RegisterScreen = (props) => {
                 email
             })
             setLoading(false)
-            props.navigation.navigate('Home')
+            navigation.navigate('Home')
         } catch (error) {
-            props.navigation.navigate('Register')
+            navigation.navigate('Register')
             console.log(error.message)
         }
     }

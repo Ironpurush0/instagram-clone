@@ -17,52 +17,55 @@ import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import FeedScreen from './screens/FeedScreen'
 import rootReducer from './store/reducers'
+import MainScreen from './screens/MainScreen';
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 if(firebase.apps.length == 0){
   firebase.initializeApp(config)
 }
-export default function App({navigation}) {
+export default function App() {
   const [loading, setLoading] = useState(false)
+  const [loggedin, setIsLoggedin] = useState(false)
 
   const Stack = createStackNavigator()
 
   firebase.auth().onAuthStateChanged(user => {
     if(!user){
       setLoading(true)
+      setIsLoggedin(false)
     } else {
       setLoading(false)
+      setIsLoggedin(true)
     }
   })
 
-  // if(!loading){
-  //   return <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-  //     <ActivityIndicator size="large" color="blue"  />
-  //     <Text>You need to authenticate first</Text>
-  //   </View>
-  // }
+  if(!loggedin){
+    return <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="Register" 
+        component={RegisterScreen}
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen}
+        options={{headerShown: false}} 
+      />
+      <Stack.Screen 
+        component={Home} 
+        name="Home" 
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  </NavigationContainer> 
+  }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen 
-          name="Register" 
-          component={RegisterScreen}
-          options={{headerShown: false}} 
-        />
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen}
-          options={{headerShown: false}} 
-        />
-        <Stack.Screen 
-          component={Home} 
-          name="Home" 
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <MainScreen />  
+    </Provider>
   );
 }
 
