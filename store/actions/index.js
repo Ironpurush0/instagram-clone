@@ -2,7 +2,6 @@ import firebase from 'firebase'
 // require('firebase/firestore')
 
 const USER_STATE_CHANGE = 'USER_STATE_CHANGE'
-const LOGOUT_USER = 'LOGOUT_USER'
 
 export function fetchUser(){
     return((dispatch) => {

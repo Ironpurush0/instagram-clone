@@ -41,7 +41,7 @@ export default function App() {
   })
 
   if(!loggedin){
-    return <NavigationContainer>
+    return <NavigationContainer independent={true}>
     <Stack.Navigator>
       <Stack.Screen 
         name="Register" 
@@ -64,7 +64,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <MainScreen />  
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Main" component={MainScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
